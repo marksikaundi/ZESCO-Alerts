@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  ScrollView, 
-  TouchableOpacity, 
-  View,
+import { PowerConsumptionChart } from "@/components/power-consumption-chart";
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
   Text,
-} from 'react-native';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors } from '@/constants/theme';
-import { ThemedView } from '@/components/themed-view';
-import { ThemedText } from '@/components/themed-text';
-import { PowerConsumptionChart } from '@/components/power-consumption-chart';
-import { IconSymbol } from '@/components/ui/icon-symbol';
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface AppUsage {
   name: string;
@@ -27,33 +27,33 @@ interface TimeUsage {
 
 export default function PowerConsumptionScreen() {
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
-  
+  const colors = Colors[colorScheme ?? "light"];
+
   const chartData = [
-    { time: '00:00', standby: 30, used: 20 },
-    { time: '06:00', standby: 35, used: 15 },
-    { time: '12:00', standby: 45, used: 60 },
-    { time: '18:00', standby: 40, used: 55 },
-    { time: '24:00', standby: 50, used: 45 },
+    { time: "00:00", standby: 30, used: 20 },
+    { time: "06:00", standby: 35, used: 15 },
+    { time: "12:00", standby: 45, used: 60 },
+    { time: "18:00", standby: 40, used: 55 },
+    { time: "24:00", standby: 50, used: 45 },
   ];
-  
+
   const appUsage: AppUsage[] = [
-    { name: 'Gmail', percentage: 43.2, color: '#FF6B6B' },
-    { name: 'WeChat', percentage: 27, color: '#4CAF50' },
-    { name: 'Face Book', percentage: 72.1, color: '#2196F3' },
+    { name: "Gmail", percentage: 43.2, color: "#FF6B6B" },
+    { name: "WeChat", percentage: 27, color: "#4CAF50" },
+    { name: "Face Book", percentage: 72.1, color: "#2196F3" },
   ];
-  
+
   const timeUsage: TimeUsage[] = [
-    { label: 'Used', used: '12h', standby: '36m' },
-    { label: 'Standby', used: '25h', standby: '18m' },
+    { label: "Used", used: "12h", standby: "36m" },
+    { label: "Standby", used: "25h", standby: "18m" },
   ];
-  
+
   const handleBack = () => {
     // Handle back navigation
   };
-  
+
   return (
-    <ScrollView 
+    <ScrollView
       style={[styles.container, { backgroundColor: colors.background }]}
       showsVerticalScrollIndicator={false}
     >
@@ -62,15 +62,17 @@ export default function PowerConsumptionScreen() {
         <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <IconSymbol size={24} name="chevron.left" color={colors.text} />
         </TouchableOpacity>
-        <ThemedText type="title" style={styles.headerTitle}>Power consumption</ThemedText>
+        <ThemedText type="title" style={styles.headerTitle}>
+          Power consumption
+        </ThemedText>
         <View style={styles.backButton} />
       </View>
-      
+
       {/* Chart */}
       <ThemedView style={styles.chartContainer}>
         <PowerConsumptionChart data={chartData} height={200} />
       </ThemedView>
-      
+
       {/* Time Usage Stats */}
       <View style={styles.timeStatsContainer}>
         {timeUsage.map((stat, index) => (
@@ -87,7 +89,7 @@ export default function PowerConsumptionScreen() {
           </View>
         ))}
       </View>
-      
+
       {/* App Usage Section */}
       <ThemedView style={styles.appUsageContainer}>
         {appUsage.map((app, index) => (
@@ -97,9 +99,9 @@ export default function PowerConsumptionScreen() {
                 {app.name}
               </Text>
             </View>
-            
+
             <View style={styles.progressBarContainer}>
-              <View 
+              <View
                 style={[
                   styles.progressBar,
                   {
@@ -109,7 +111,7 @@ export default function PowerConsumptionScreen() {
                 ]}
               />
             </View>
-            
+
             <Text style={[styles.appPercentage, { color: colors.text }]}>
               {app.percentage}%
             </Text>
@@ -126,9 +128,9 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingTop: 12,
     paddingBottom: 12,
@@ -136,14 +138,14 @@ const styles = StyleSheet.create({
   backButton: {
     width: 40,
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   chartContainer: {
     marginHorizontal: 16,
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   timeStatsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 16,
     gap: 12,
     marginBottom: 24,
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 12,
     paddingHorizontal: 12,
-    backgroundColor: 'rgba(33, 150, 243, 0.1)',
+    backgroundColor: "rgba(33, 150, 243, 0.1)",
     borderRadius: 8,
   },
   timeStatLabel: {
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
   },
   timeStatValue: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   timeStatSubValue: {
     fontSize: 12,
@@ -195,21 +197,21 @@ const styles = StyleSheet.create({
   },
   appName: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   progressBarContainer: {
     height: 6,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
     borderRadius: 3,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   progressBar: {
-    height: '100%',
+    height: "100%",
     borderRadius: 3,
   },
   appPercentage: {
     fontSize: 12,
-    fontWeight: '500',
-    textAlign: 'right',
+    fontWeight: "500",
+    textAlign: "right",
   },
 });
