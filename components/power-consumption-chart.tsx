@@ -19,22 +19,13 @@ export function PowerConsumptionChart({
   height = 200,
 }: PowerConsumptionChartProps) {
   const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
   const colors = Colors[colorScheme ?? "light"];
 
   if (data.length === 0) return null;
 
-  const maxValue = Math.max(...data.flatMap((d) => [d.standby, d.used]));
+  const maxValue = Math.max(...data.flatMap((d) => [d.standby, d.used]), 100);
   const width = data.length * 40;
-
-  const generatePath = (values: number[], color: string) => {
-    const points = values.map((v, i) => {
-      const x = i * 40 + 20;
-      const y = height - 40 - (v / maxValue) * (height - 80);
-      return `${x},${y}`;
-    });
-
-    return points.join(" ");
-  };
 
   const generatePathString = (values: number[]) => {
     return values.map((v, i) => {
@@ -47,21 +38,34 @@ export function PowerConsumptionChart({
   const standbyPoints = generatePathString(data.map((d) => d.standby));
   const usedPoints = generatePathString(data.map((d) => d.used));
 
-  // Create SVG path string
-  const createSVGPath = (points: { x: number; y: number }[]) => {
-    if (points.length === 0) return "";
-    return points
-      .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-      .join(" ");
-  };
-
   return (
     <View style={styles.container}>
       {/* Y-axis labels */}
       <View style={styles.yAxisLabels}>
-        <Text style={[styles.yLabel, { color: colors.icon }]}>100</Text>
-        <Text style={[styles.yLabel, { color: colors.icon }]}>50</Text>
-        <Text style={[styles.yLabel, { color: colors.icon }]}>0</Text>
+        <Text
+          style={[
+            styles.yLabel,
+            { color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" },
+          ]}
+        >
+          100
+        </Text>
+        <Text
+          style={[
+            styles.yLabel,
+            { color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" },
+          ]}
+        >
+          50
+        </Text>
+        <Text
+          style={[
+            styles.yLabel,
+            { color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)" },
+          ]}
+        >
+          0
+        </Text>
       </View>
 
       {/* Chart area */}
@@ -70,19 +74,46 @@ export function PowerConsumptionChart({
           styles.chartArea,
           {
             height,
-            backgroundColor: colorScheme === "dark" ? "#1a1a1a" : "#f5f5f5",
+            backgroundColor: isDark
+              ? "rgba(30, 30, 40, 0.5)"
+              : "rgba(33, 150, 243, 0.03)",
+            borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
           },
         ]}
       >
         {/* Grid lines */}
         <View
-          style={[styles.gridLine, { top: "25%", borderTopColor: colors.icon }]}
+          style={[
+            styles.gridLine,
+            {
+              top: "25%",
+              borderTopColor: isDark
+                ? "rgba(255,255,255,0.08)"
+                : "rgba(0,0,0,0.06)",
+            },
+          ]}
         />
         <View
-          style={[styles.gridLine, { top: "50%", borderTopColor: colors.icon }]}
+          style={[
+            styles.gridLine,
+            {
+              top: "50%",
+              borderTopColor: isDark
+                ? "rgba(255,255,255,0.08)"
+                : "rgba(0,0,0,0.06)",
+            },
+          ]}
         />
         <View
-          style={[styles.gridLine, { top: "75%", borderTopColor: colors.icon }]}
+          style={[
+            styles.gridLine,
+            {
+              top: "75%",
+              borderTopColor: isDark
+                ? "rgba(255,255,255,0.08)"
+                : "rgba(0,0,0,0.06)",
+            },
+          ]}
         />
 
         {/* Line chart - Standby (Blue) */}
@@ -93,9 +124,14 @@ export function PowerConsumptionChart({
               style={[
                 styles.dataPoint,
                 {
-                  left: point.x - 4,
-                  top: point.y - 4,
+                  left: point.x - 5,
+                  top: point.y - 5,
                   backgroundColor: "#2196F3",
+                  shadowColor: "#2196F3",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.4,
+                  shadowRadius: 4,
+                  elevation: 3,
                 },
               ]}
             />
@@ -110,9 +146,14 @@ export function PowerConsumptionChart({
               style={[
                 styles.dataPoint,
                 {
-                  left: point.x - 4,
-                  top: point.y - 4,
+                  left: point.x - 5,
+                  top: point.y - 5,
                   backgroundColor: "#FF6B6B",
+                  shadowColor: "#FF6B6B",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.4,
+                  shadowRadius: 4,
+                  elevation: 3,
                 },
               ]}
             />
@@ -125,7 +166,12 @@ export function PowerConsumptionChart({
         {data.map((d, i) => (
           <Text
             key={`time-${i}`}
-            style={[styles.xLabel, { color: colors.icon }]}
+            style={[
+              styles.xLabel,
+              {
+                color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
+              },
+            ]}
           >
             {d.time}
           </Text>
@@ -136,13 +182,19 @@ export function PowerConsumptionChart({
       <View style={styles.legend}>
         <View style={styles.legendItem}>
           <View style={[styles.legendColor, { backgroundColor: "#2196F3" }]} />
-          <Text style={[styles.legendText, { color: colors.text }]}>
+          <Text
+            style={[styles.legendText, { color: isDark ? "#fff" : "#000" }]}
+          >
             Standby
           </Text>
         </View>
         <View style={styles.legendItem}>
           <View style={[styles.legendColor, { backgroundColor: "#FF6B6B" }]} />
-          <Text style={[styles.legendText, { color: colors.text }]}>Used</Text>
+          <Text
+            style={[styles.legendText, { color: isDark ? "#fff" : "#000" }]}
+          >
+            Used
+          </Text>
         </View>
       </View>
     </View>
@@ -151,7 +203,7 @@ export function PowerConsumptionChart({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 16,
+    marginVertical: 0,
   },
   yAxisLabels: {
     position: "absolute",
@@ -165,19 +217,21 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: "right",
     paddingRight: 4,
+    fontWeight: "500",
   },
   chartArea: {
     marginLeft: 40,
     position: "relative",
     borderLeftWidth: 1,
     borderBottomWidth: 1,
-    borderColor: "#ccc",
+    borderRadius: 8,
+    overflow: "hidden",
   },
   gridLine: {
     position: "absolute",
     width: "100%",
     borderTopWidth: 1,
-    opacity: 0.2,
+    opacity: 0.5,
   },
   lineContainer: {
     position: "absolute",
@@ -186,24 +240,26 @@ const styles = StyleSheet.create({
   },
   dataPoint: {
     position: "absolute",
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   xAxisLabels: {
     flexDirection: "row",
     marginLeft: 40,
-    marginTop: 8,
+    marginTop: 12,
   },
   xLabel: {
     flex: 1,
     fontSize: 10,
     textAlign: "center",
+    fontWeight: "500",
   },
   legend: {
     flexDirection: "row",
     marginTop: 16,
-    gap: 16,
+    gap: 20,
+    justifyContent: "center",
   },
   legendItem: {
     flexDirection: "row",
@@ -211,11 +267,12 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   legendColor: {
-    width: 12,
-    height: 12,
-    borderRadius: 2,
+    width: 10,
+    height: 10,
+    borderRadius: 3,
   },
   legendText: {
     fontSize: 12,
+    fontWeight: "500",
   },
 });

@@ -1,4 +1,3 @@
-import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -54,7 +53,9 @@ export function PowerGauge({
           {
             width: size - 32,
             height: size - 32,
-            backgroundColor: isDark ? "rgba(30, 30, 40, 0.9)" : "rgba(255, 255, 255, 0.95)",
+            backgroundColor: isDark
+              ? "rgba(30, 30, 40, 0.9)"
+              : "rgba(255, 255, 255, 0.95)",
             shadowColor: isDark ? "#000" : "#000",
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: isDark ? 0.4 : 0.1,
@@ -68,7 +69,7 @@ export function PowerGauge({
           <Text
             style={[
               styles.percentage,
-              { 
+              {
                 color: isDark ? "#fff" : "#000",
                 fontSize: size * 0.35,
               },

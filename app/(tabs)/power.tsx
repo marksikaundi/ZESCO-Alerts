@@ -1,6 +1,5 @@
 import { PowerGauge } from "@/components/power-gauge";
 import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -12,7 +11,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  LinearGradientPoint,
 } from "react-native";
 
 interface PowerStat {
@@ -84,7 +82,7 @@ export default function GoPowerScreen() {
     <ScrollView
       style={[
         styles.container,
-        { 
+        {
           backgroundColor: isDark ? "#0F1419" : "#F8FAFC",
         },
       ]}
@@ -95,9 +93,7 @@ export default function GoPowerScreen() {
         style={[
           styles.headerBg,
           {
-            backgroundColor: isDark
-              ? "#1A1F2E"
-              : "#F0F4F8",
+            backgroundColor: isDark ? "#1A1F2E" : "#F0F4F8",
           },
         ]}
       >
@@ -170,10 +166,7 @@ export default function GoPowerScreen() {
             ]}
           >
             <Text
-              style={[
-                styles.statValue,
-                { color: isDark ? "#fff" : "#000" },
-              ]}
+              style={[styles.statValue, { color: isDark ? "#fff" : "#000" }]}
             >
               {stat.value}
             </Text>
@@ -213,10 +206,7 @@ export default function GoPowerScreen() {
       >
         <View style={styles.featuresHeader}>
           <Text
-            style={[
-              styles.featuresTitle,
-              { color: isDark ? "#fff" : "#000" },
-            ]}
+            style={[styles.featuresTitle, { color: isDark ? "#fff" : "#000" }]}
           >
             Maintenance
           </Text>
@@ -269,7 +259,11 @@ export default function GoPowerScreen() {
                 <Text
                   style={[
                     styles.featureSubtitle,
-                    { color: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.5)" },
+                    {
+                      color: isDark
+                        ? "rgba(255,255,255,0.6)"
+                        : "rgba(0,0,0,0.5)",
+                    },
                   ]}
                 >
                   {feature.subtitle}
