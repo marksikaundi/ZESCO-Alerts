@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
-    marginBottom: 16,
+    gap: 14,
+    marginBottom: 18,
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
+    width: 52,
+    height: 52,
+    borderRadius: 13,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   label: {
-    fontSize: 13,
-    marginBottom: 4,
+    fontSize: 12,
+    marginBottom: 6,
   },
   value: {
-    fontSize: 16,
+    fontSize: 17,
   },
 });

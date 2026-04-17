@@ -163,7 +163,7 @@ export default function HomeScreen() {
         </SummaryCard>
 
         {/* Today's Summary */}
-        <SummaryCard>
+        <SummaryCard style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <ThemedText
             type="defaultSemiBold"
             lightColor="#11181C"
@@ -194,7 +194,7 @@ export default function HomeScreen() {
         </SummaryCard>
 
         {/* Quick Actions */}
-        <SummaryCard>
+        <SummaryCard style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <ThemedText
             type="defaultSemiBold"
             lightColor="#11181C"
@@ -274,88 +274,93 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 16,
   },
   greetingTime: {
-    fontSize: 14,
-    marginBottom: 4,
+    fontSize: 13,
+    marginBottom: 6,
   },
   greetingText: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: 32,
+    fontWeight: "800",
   },
   avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
     justifyContent: "center",
     alignItems: "center",
   },
   timerCard: {
     marginHorizontal: 20,
-    marginBottom: 16,
+    marginBottom: 20,
+    backgroundColor: "#6B9E7F08",
   },
   timerHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 20,
   },
   timerLabel: {
-    fontSize: 13,
-    marginBottom: 4,
+    fontSize: 12,
+    marginBottom: 6,
+  },
+  timerTime: {
+    fontSize: 16,
   },
   timerBadge: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
+    width: 56,
+    height: 56,
+    borderRadius: 14,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#6B9E7F15",
   },
   timerDisplay: {
     alignItems: "center",
-    marginVertical: 20,
-    gap: 12,
+    marginVertical: 24,
+    gap: 16,
   },
   timerBig: {
-    fontSize: 48,
-    fontWeight: "bold",
-    letterSpacing: 1,
+    fontSize: 64,
+    fontWeight: "700",
+    letterSpacing: 2,
   },
   statusBadge: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 24,
+    gap: 8,
   },
   statusDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   statusText: {
-    fontSize: 12,
-    fontWeight: "600",
+    fontSize: 13,
+    fontWeight: "700",
   },
   timerButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 12,
-    borderRadius: 10,
-    gap: 8,
-    marginTop: 12,
+    paddingVertical: 14,
+    borderRadius: 12,
+    gap: 10,
+    marginTop: 16,
   },
   timerButtonText: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "600",
   },
   cardTitle: {
-    fontSize: 16,
-    marginBottom: 16,
+    fontSize: 18,
+    marginBottom: 18,
+    fontWeight: "600",
   },
   quickActions: {
     flexDirection: "row",
@@ -364,14 +369,14 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    paddingVertical: 16,
-    borderRadius: 10,
+    paddingVertical: 18,
+    borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
-    gap: 8,
+    gap: 10,
   },
   actionText: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "600",
   },
 });

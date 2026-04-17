@@ -8,6 +8,8 @@ interface CircularTimerProps {
   radius?: number;
   strokeWidth?: number;
   color?: string;
+  textColor?: string;
+  bgCircleColor?: string;
 }
 
 export default function CircularTimer({
@@ -16,6 +18,8 @@ export default function CircularTimer({
   radius = 120,
   strokeWidth = 8,
   color = "#6B9E7F",
+  textColor = "#11181C",
+  bgCircleColor = "#E0E0E0",
 }: CircularTimerProps) {
   const circumference = 2 * Math.PI * radius;
   const progress = (time / totalTime) * 100;
@@ -36,7 +40,7 @@ export default function CircularTimer({
           cx={radius + strokeWidth}
           cy={radius + strokeWidth}
           r={radius}
-          stroke="#E0E0E0"
+          stroke={bgCircleColor}
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -57,9 +61,9 @@ export default function CircularTimer({
       </Svg>
       <View style={[StyleSheet.absoluteFill, styles.timeContainer]}>
         <ThemedText
-          style={styles.timeText}
-          lightColor="#11181C"
-          darkColor="#ECEDEE"
+          style={[styles.timeText, { color: textColor }]}
+          lightColor={textColor}
+          darkColor={textColor}
         >
           {displayTime}
         </ThemedText>
