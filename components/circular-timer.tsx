@@ -42,6 +42,7 @@ export default function CircularTimer({
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
   const displayTime = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  const timeLineHeight = Math.round(timeTextSize * 1.1);
 
   const svgSize = radius * 2 + strokeWidth * 2;
 
@@ -75,7 +76,11 @@ export default function CircularTimer({
         <ThemedText
           style={[
             styles.timeText,
-            { color: textColor, fontSize: timeTextSize },
+            {
+              color: textColor,
+              fontSize: timeTextSize,
+              lineHeight: timeLineHeight,
+            },
           ]}
           lightColor={textColor}
           darkColor={textColor}
