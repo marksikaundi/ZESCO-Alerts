@@ -17,8 +17,8 @@ interface CircularTimerProps {
 export default function CircularTimer({
   time,
   totalTime,
-  radius = 120,
-  strokeWidth = 10,
+  radius = 132,
+  strokeWidth = 5,
   color = "#5E8362",
   textColor = "#2C2C2C",
   bgCircleColor = "#E3E6E3",
@@ -35,7 +35,7 @@ export default function CircularTimer({
   const angle = -Math.PI / 2 + 2 * Math.PI * progressRatio;
   const thumbX = cx + radius * Math.cos(angle);
   const thumbY = cy + radius * Math.sin(angle);
-  const thumbR = Math.max(5, strokeWidth * 0.55);
+  const thumbR = Math.max(6, strokeWidth * 1.15);
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
@@ -61,7 +61,7 @@ export default function CircularTimer({
           stroke={color}
           strokeWidth={strokeWidth}
           fill="none"
-          strokeDasharray={circumference}
+          strokeDasharray={`${circumference} ${circumference}`}
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           rotation="-90"
@@ -93,9 +93,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   timeText: {
-    fontSize: 56,
+    fontSize: 62,
     fontWeight: "700",
-    letterSpacing: 1,
+    letterSpacing: 0.5,
     fontVariant: ["tabular-nums"],
   },
 });

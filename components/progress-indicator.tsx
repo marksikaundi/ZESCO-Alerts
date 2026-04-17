@@ -55,7 +55,7 @@ export default function ProgressIndicator({
   activeColor,
   inactiveColor,
 }: ProgressIndicatorProps) {
-  const dotSize = 14;
+  const dotSize = 11;
 
   return (
     <View style={styles.container}>
@@ -105,7 +105,7 @@ export default function ProgressIndicator({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    gap: 10,
+    gap: 12,
     justifyContent: "center",
     alignItems: "center",
   },

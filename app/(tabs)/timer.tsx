@@ -4,6 +4,9 @@ import ThemedText from "@/components/themed-text";
 import { FokusColors } from "@/constants/fokus-theme";
 import { useTimer } from "@/hooks/use-timer";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import { useCallback } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,16 +15,28 @@ const REST_SEC = 5 * 60;
 const SESSIONS = 4;
 
 export default function TimerScreen() {
+  const navigation = useNavigation();
   const { timeRemaining, totalDuration, mode, isRunning, cycleCount, toggle, reset } =
     useTimer({
       workDuration: WORK_SEC,
       restDuration: REST_SEC,
     });
 
+  useFocusEffect(
+    useCallback(() => {
+      const tabNav = navigation.getParent();
+      tabNav?.setOptions({ tabBarStyle: { display: "none" } });
+      return () => {
+        tabNav?.setOptions({ tabBarStyle: undefined });
+      };
+    }, [navigation]),
+  );
+
   const isRest = mode === "rest";
-  const bgColor = isRest ? FokusColors.sage : FokusColors.white;
+  const bgColor = isRest ? FokusColors.restBackground : FokusColors.white;
   const textColor = isRest ? FokusColors.white : FokusColors.textWork;
   const accent = isRest ? FokusColors.white : FokusColors.sage;
+  const backIconColor = isRest ? FokusColors.white : FokusColors.navWork;
 
   const numSolid = isRest ? cycleCount + 1 : cycleCount;
   const activePieIndex = isRest
