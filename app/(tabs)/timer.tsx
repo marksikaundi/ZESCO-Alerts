@@ -4,13 +4,8 @@ import ThemedText from "@/components/themed-text";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useTimer } from "@/hooks/use-timer";
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, useColorScheme, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TimerScreen() {
   const colorScheme = useColorScheme();
