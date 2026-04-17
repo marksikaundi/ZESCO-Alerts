@@ -1,120 +1,110 @@
 import CircularTimer from "@/components/circular-timer";
 import ProgressIndicator from "@/components/progress-indicator";
 import ThemedText from "@/components/themed-text";
-import { IconSymbol } from "@/components/ui/icon-symbol";
+import { FokusColors } from "@/constants/fokus-theme";
 import { useTimer } from "@/hooks/use-timer";
-import { Pressable, StyleSheet, useColorScheme, View } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const WORK_SEC = 25 * 60;
+const REST_SEC = 5 * 60;
+const SESSIONS = 4;
+
 export default function TimerScreen() {
-  const colorScheme = useColorScheme();
+  const { timeRemaining, totalDuration, mode, isRunning, cycleCount, toggle, reset } =
+    useTimer({
+      workDuration: WORK_SEC,
+      restDuration: REST_SEC,
+    });
 
-  const {
-    timeRemaining,
-    totalDuration,
-    mode,
-    isRunning,
-    cycleCount,
-    toggle,
-    reset,
-    skip,
-  } = useTimer({
-    workDuration: 25 * 60,
-    restDuration: 5 * 60,
-  });
+  const isRest = mode === "rest";
+  const bgColor = isRest ? FokusColors.sage : FokusColors.white;
+  const textColor = isRest ? FokusColors.white : FokusColors.textWork;
+  const accent = isRest ? FokusColors.white : FokusColors.sage;
 
-  const workColor = "#6B9E7F";
-  const restColor = "#6B9E7F";
-  const currentColor = mode === "work" ? workColor : restColor;
+  const numSolid = isRest ? cycleCount + 1 : cycleCount;
+  const activePieIndex = isRest ? numSolid : cycleCount;
+  const activeFraction =
+    mode === "work"
+      ? 1 - timeRemaining / WORK_SEC
+      : 1 - timeRemaining / REST_SEC;
 
-  // Background color changes based on mode
-  const bgColor = mode === "work" ? "#FFFFFF" : "#6B9E7F";
-  const textColor = mode === "work" ? "#11181C" : "#FFFFFF";
-  const isDarkMode = mode === "rest";
+  const inactiveDots = isRest ? FokusColors.inactiveDotRest : FokusColors.inactiveDot;
 
-  const modeText = mode === "work" ? "Work Mode" : "Rest";
-  const modeIcon = mode === "work" ? "desktopcomputer" : "sparkles";
-  const buttonText = isRunning ? "Pause" : "Resume";
-  const buttonIcon = isRunning ? "pause.fill" : "play.fill";
+  const modeLabel = mode === "work" ? "Work Mode" : "Rest";
+  const controlLabel = isRunning ? "pause" : "resume";
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: bgColor }]}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Pressable onPress={reset}>
-          <IconSymbol
-            name="chevron.left"
-            size={28}
-            color={isDarkMode ? "#FFFFFF" : "#6B9E7F"}
-          />
+      <View style={styles.headerRow}>
+        <Pressable
+          onPress={reset}
+          style={styles.headerSide}
+          accessibilityRole="button"
+          accessibilityLabel="Reset timer"
+        >
+          <Ionicons name="chevron-back" size={26} color={accent} />
         </Pressable>
+        <View style={styles.headerCenter}>
+          <ProgressIndicator
+            total={SESSIONS}
+            numSolid={numSolid}
+            activePieIndex={activePieIndex}
+            activeFraction={Number.isFinite(activeFraction) ? activeFraction : 0}
+            activeColor={accent}
+            inactiveColor={inactiveDots}
+          />
+        </View>
+        <View style={styles.headerSide} />
       </View>
 
-      {/* Progress Indicator */}
-      <View style={styles.progressSection}>
-        <ProgressIndicator
-          total={4}
-          current={Math.min(cycleCount + (mode === "rest" ? 1 : 0), 4)}
-          color={isDarkMode ? "#FFFFFF" : currentColor}
-          inactiveColor={isDarkMode ? "#FFFFFF60" : "#D3D3D3"}
-        />
-      </View>
-
-      {/* Main Content */}
       <View style={styles.content}>
-        {/* Circular Timer */}
         <CircularTimer
           time={timeRemaining}
           totalTime={totalDuration}
-          color={isDarkMode ? "#FFFFFF" : currentColor}
-          radius={110}
-          strokeWidth={12}
-          textColor={isDarkMode ? "#FFFFFF" : "#11181C"}
-          bgCircleColor={isDarkMode ? "#FFFFFF30" : "#E5E5E5"}
+          radius={118}
+          strokeWidth={11}
+          color={isRest ? FokusColors.white : FokusColors.sage}
+          textColor={textColor}
+          bgCircleColor={isRest ? FokusColors.trackRest : FokusColors.trackWork}
+          thumbColor={isRest ? FokusColors.white : FokusColors.sage}
         />
 
-        {/* Mode Text */}
-        <ThemedText
-          style={[styles.modeText, { color: textColor }]}
-          lightColor={textColor}
-          darkColor={textColor}
-        >
-          {modeText}
-        </ThemedText>
+        <Text style={[styles.modeText, { color: textColor }]}>{modeLabel}</Text>
 
-        {/* Mode Icon */}
         <View style={styles.iconContainer}>
-          <IconSymbol
-            name={modeIcon}
-            size={44}
-            color={isDarkMode ? "#FFFFFF" : currentColor}
-          />
+          {mode === "work" ? (
+            <Ionicons name="desktop-outline" size={40} color={accent} />
+          ) : (
+            <Ionicons name="leaf-outline" size={40} color={accent} />
+          )}
         </View>
 
-        {/* Main Button */}
         <Pressable
           style={[
             styles.mainButton,
             {
-              backgroundColor: isDarkMode ? "#FFFFFF" : currentColor,
+              backgroundColor: isRest ? FokusColors.white : FokusColors.sage,
             },
           ]}
           onPress={toggle}
+          accessibilityRole="button"
+          accessibilityLabel={isRunning ? "Pause" : "Resume"}
         >
-          <IconSymbol
-            name={buttonIcon}
-            size={40}
-            color={isDarkMode ? currentColor : "#FFFFFF"}
+          <Ionicons
+            name={isRunning ? "pause" : "play"}
+            size={32}
+            color={isRest ? FokusColors.sage : FokusColors.white}
           />
         </Pressable>
 
-        {/* Button Label */}
         <ThemedText
           style={[styles.buttonLabel, { color: textColor }]}
           lightColor={textColor}
           darkColor={textColor}
         >
-          {buttonText}
+          {controlLabel}
         </ThemedText>
       </View>
     </SafeAreaView>
@@ -125,50 +115,55 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 8,
+    paddingTop: 8,
+    paddingBottom: 4,
   },
-  progressSection: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+  headerSide: {
+    width: 44,
+    height: 44,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerCenter: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   content: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 30,
+    paddingHorizontal: 28,
+    paddingBottom: 32,
   },
   modeText: {
-    marginTop: 32,
-    marginBottom: 16,
-    fontSize: 17,
-    fontWeight: "600",
-    letterSpacing: 0.3,
+    marginTop: 28,
+    fontSize: 13,
+    fontWeight: "500",
+    letterSpacing: 4,
+    textTransform: "uppercase",
   },
   iconContainer: {
-    marginVertical: 20,
+    marginTop: 14,
+    marginBottom: 8,
   },
   mainButton: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
+    width: 86,
+    height: 86,
+    borderRadius: 43,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    elevation: 8,
+    marginTop: 36,
   },
   buttonLabel: {
-    fontSize: 16,
-    fontWeight: "600",
-    letterSpacing: 0.5,
+    marginTop: 12,
+    fontSize: 13,
+    fontWeight: "500",
+    letterSpacing: 0.2,
+    textTransform: "lowercase",
   },
 });
