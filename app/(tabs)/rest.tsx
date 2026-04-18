@@ -4,7 +4,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Pressable, StyleSheet, View } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 export default function RestScreen() {
   const router = useRouter();
@@ -49,7 +52,12 @@ export default function RestScreen() {
             </ThemedText>
           </View>
 
-          <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+          <View
+            style={[
+              styles.footer,
+              { paddingBottom: Math.max(insets.bottom, 12) },
+            ]}
+          >
             <Pressable
               style={styles.mainButton}
               onPress={() => router.push("/(tabs)/timer")}
