@@ -63,6 +63,14 @@ export default function TimerScreen() {
     router.push("/(tabs)/rest");
   };
 
+  const handleModePress = () => {
+    if (mode === "work") {
+      router.push("/(tabs)/work");
+    } else {
+      router.push("/(tabs)/rest");
+    }
+  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: shellBg }]}
@@ -111,9 +119,15 @@ export default function TimerScreen() {
               thumbColor={isRest ? FokusColors.white : FokusColors.sage}
             />
 
-            <Text style={[styles.modeText, { color: textColor }]}>
-              {modeLabel}
-            </Text>
+            <Pressable
+              onPress={handleModePress}
+              accessibilityRole="button"
+              accessibilityLabel={`Open ${modeLabel} screen`}
+            >
+              <Text style={[styles.modeText, { color: textColor }]}>
+                {modeLabel}
+              </Text>
+            </Pressable>
 
             <View style={styles.iconContainer}>
               {mode === "work" ? (
